@@ -26,19 +26,24 @@ class PostsController < ApplicationController
 		@post = @group.posts.find(params[:id])
 
 		 if @post.update(post_params)  #post_params?
-			redirect_to group_path(@group), notice: "文章修改成功！"
-		else
-			render :edit
+		 	redirect_to group_path(@group), notice: "文章修改成功！"
+		 else
+		 	render :edit
+		 end
 		end
-	end
-	
+
 	def destroy
+		@group = Group.find(params[:group_id])
+		@post = @group.posts.find(params[:id])
+
+		@post.destroy
+			redirect_to group_path(@group), alert: "文章已刪除"
 	end
 
 
-	private
-	def post_params
-		params.require(:post).permit(:content)
-	end
+		private
+		def post_params
+			params.require(:post).permit(:content)
+		end
 
-end
+	end
