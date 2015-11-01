@@ -15,8 +15,14 @@ Rails.application.routes.draw do
      post :quit
    end
 
-    resources :posts 
-  end
+   resources :posts 
+ end
+
+
+ namespace :account do
+   resources :groups
+   resources :posts
+ end
 
   # get 'welcome', to: 'topics#welcome'
   # root 'topics#index'  
