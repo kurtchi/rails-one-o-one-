@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 
 	before_action :authenticate_user!
 	before_action :find_group
+	before_action :member_required, only: [:new, :create ]
 
 	def new
 		@post = @group.posts.new
@@ -13,7 +14,7 @@ class PostsController < ApplicationController
 	
 	def create
 		@post = @group.posts.build(post_params)
-        @post.author = current_user
+		@post.author = current_user
 
 		if @post.save
 			redirect_to group_path(@group), notice: "新增文章成功！"
@@ -29,25 +30,32 @@ class PostsController < ApplicationController
 		 	redirect_to group_path(@group), notice: "文章修改成功！"
 		 else
 		 	render :edit
-		 end
 		end
+	end
 
-	def destroy
-		@post = @group.posts.find(params[:id])
-		@post = current_user.posts.find(params[:id])
+		def destroy
+			@post = @group.posts.find(params[:id])
+			@post = current_user.posts.find(params[:id])
 
-		@post.destroy
+			@post.destroy
 			redirect_to group_path(@group), alert: "文章已刪除"
 		end
 
 
-	private
-	def post_params
+		private
+		def post_params
 			params.require(:post).permit(:content)
-	end
+		end
 
-	def find_group
+		def find_group
 			@group = Group.find(params[:group_id])
-	end  
+		end  
 
-end
+		def member_required
+			if !current_user.is_member_of?(@group)
+				flash[:warning] = "你不是這個討論版的成員，不能發文喔！"
+				redirect_to group_path(@group)
+			end
+		end
+
+	end
