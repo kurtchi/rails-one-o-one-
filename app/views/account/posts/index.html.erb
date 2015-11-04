@@ -1,0 +1,29 @@
+
+<div class="col-md-12">
+  
+  <h2 class="text-center"> 我加入的討論版 </h2>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th> Content </th>
+        <th> Title </th>
+        <th> Description </th>
+        <th> Post Count </th>
+        <th> Last Update </th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td> # </td>
+          <td> <%= link_to(post.title, post_path(post)) %> </td> 
+          <td> <%= post.content %> </td> 
+          <td> <%= post.group.title %> </td> 
+          <td> <%= group.updated_at %> </td> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
