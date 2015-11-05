@@ -6,6 +6,9 @@ gem 'bootstrap-sass'
 gem 'rails', '4.1.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+
+gem 'therubyracer', platforms: :ruby
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -43,4 +46,14 @@ gem "devise"
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+group :development do
+  gem "brakeman", require: false
+  gem "rails_best_practices", require: false
+  gem "sqlite3"
+end
+
+group :production do
+  gem "mysql2"
+end
+
 
